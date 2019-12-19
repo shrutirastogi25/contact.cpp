@@ -1,12 +1,13 @@
 #include<iostream>
+#include<string>
 using namespace std;
 class contact
 {
  public:
- 		 char name;
-		 int number;
+ 		 string name;
+		 string number;
 		 contact*next;
-		 contact(char a,int n,contact*c=NULL)
+		 contact(string a,string n,contact*c=NULL)
 		 {
 		  name=a;
 		  number=n;
@@ -23,13 +24,29 @@ class contactList
 		 head=tail=NULL;
 		}
 		bool isempty();
-       // contact*createnewcontact(char,int);
 		void display();
 		void deletion();
-		void insert(char,int);
-		void addtohead(char,int);
-		void addtotail(char,int);
+		void insert(string,string);
+		void addtohead(string,string);
+		void addtotail(string,string);
+		void search();
 };
+void contactList::search()
+{ 
+ string sname;
+ contact* temp;
+ cout<<"\nEnter the name you wish to search"<<endl;
+ cin>>sname;
+ for(temp=head;temp!=NULL;temp=temp->next)
+ {
+  if(temp->name==sname)
+  {
+   cout<<"\nContact name: "<<temp->name<<"\nContact number:"<<temp->number<<endl;
+  }
+  if(temp==NULL)
+   cout<<"\nThe name "<<sname<<" does not exist in the directory."<<endl;
+ }
+}
 void contactList::deletion()
 {
  if(head==NULL)
@@ -37,7 +54,7 @@ void contactList::deletion()
  else
  {
   contact*temp,*temp1;
-  char del;
+  string del;
   cout<<"\nEnter the name of the contact you wish to delete"<<endl;
   cin>>del;
   if(head->name==del)
@@ -60,7 +77,7 @@ void contactList::deletion()
   }
  }
 }
-void contactList::insert(char n, int x)
+void contactList::insert(string n, string x)
 {
  contact* c=new contact(n,x,NULL);
  contact*temp,*temp1;
@@ -89,7 +106,7 @@ void contactList::display()
   cout<<"\nName:"<<temp->name<<"\nConatact number: "<<temp->number<<endl;
  }
 }
-void contactList::addtohead(char n,int x)
+void contactList::addtohead(string n,string x)
 {
  contact*c=new contact(n,x,NULL);
  if(head==NULL)
@@ -100,7 +117,7 @@ void contactList::addtohead(char n,int x)
   head=c;
  }
 }
-void contactList::addtotail(char n,int x)
+void contactList::addtotail(string n,string x)
 {
  contact*c=new contact(n,x,NULL);
  if(tail==NULL)
@@ -112,10 +129,12 @@ void contactList::addtotail(char n,int x)
  }
 }
 int main()
-{
+{; 
  contactList con;
- int add,n,choice;
- char name, ch='y';
+ int choice;
+ string n;
+ char ch='y';
+ string name;
  contact* nptr;
  while(ch=='y' || ch=='Y')
  {
@@ -123,7 +142,8 @@ int main()
       <<"\n1.Create new contact"
 	  <<"\n2.Delete Contact"
 	  <<"\n3.Display all contacts"
-	  <<"\nEnter choice(1-3)"<<endl;
+	  <<"\n4.Search for a contact"
+	  <<"\nEnter choice(1-4)"<<endl;
   cin>>choice;
   switch(choice)
   {
@@ -139,12 +159,17 @@ int main()
 		  break;
    case 3:con.display();
           break;
+   case 4:con.search();
+          break;
    default:cout<<"\nINVALID CHOICE"<<endl;
            break;
   }
   cout<<"\nDo you wish to continue?(y/n)"<<endl;
   cin>>ch;
  }
+ auto stop = high_resolution_clock::now(); 
+ auto duration = duration_cast<microseconds>(stop - start); 
+ cout << duration.count() << endl; 
  return 0;
 }
  
